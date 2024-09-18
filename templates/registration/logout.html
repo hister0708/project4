@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<p>로그아웃!</p>
+<a href="/">메인페이지로.</a>
+<!-- <a href="{% url 'login'%}">다시 로그인하려면 클릭.</a>-->
+<a href="/accounts/login">다시 로그인하려면 클릭.</a>
+
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>게시글 목록</h2>
+
+<div class="post-list">
+    {% for post in page_obj.object_list %}
+        <div class="post-item">
+            <h3><a href="{% url 'board:post_detail' post.id %}">{{ post.title }}</a></h3>
+            <p>작성자: {{ post.author.username }}</p>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 200px; height: auto;">
+            {% endif %}
+            <p>평균 별점: {{ post.get_average_rating|floatformat:1 }}</p>
+        </div>
+    {% empty %}
+        <p>게시글이 없습니다.</p>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; 첫 페이지</a>
+            <a href="?page={{ page_obj.previous_page_number }}">이전 페이지</a>
+        {% endif %}
+
+        <span class="current">
+            페이지 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">다음 페이지</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">마지막 페이지 &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<style>
+.post-list {
+    margin: 20px 0;
+}
+
+.post-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.step-links a {
+    padding: 0 10px;
+}
+</style>
+{% endblock %}
